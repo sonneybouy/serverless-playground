@@ -24,6 +24,8 @@ export class ServerlessTypescriptDemoStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY
     });
 
+
+
     const envVariables = {
       AWS_ACCOUNT_ID: Stack.of(this).account,
       POWERTOOLS_SERVICE_NAME: 'serverless-typescript-demo',
@@ -33,10 +35,25 @@ export class ServerlessTypescriptDemoStack extends Stack {
       POWERTOOLS_METRICS_NAMESPACE: 'AwsSamples',
   };
 
-    const esBuildSettings = {
+    const
+        esBuildSettings = {
       minify: true
     }
 
+    const functionMediaSettings = {
+      handler: "handler",
+      runtime: aws_lambda.Runtime.NODEJS_16_X,
+      memorySize: 256,
+      environment: {
+        ...envVariables
+      },
+      logRetention: aws_logs.RetentionDays.ONE_WEEK,
+      tracing: aws_lambda.Tracing.ACTIVE,
+      bundling: esBuildSettings
+    }
+
+
+    //TODO Establish if we need new function settings with a different set of function settings
     const functionSettings = {
       handler: "handler",
       runtime: aws_lambda.Runtime.NODEJS_16_X,
@@ -49,6 +66,7 @@ export class ServerlessTypescriptDemoStack extends Stack {
       tracing: aws_lambda.Tracing.ACTIVE,
       bundling: esBuildSettings
     }
+
 
     const getProductsFunction = new aws_lambda_nodejs.NodejsFunction(
       this,
@@ -104,6 +122,7 @@ export class ServerlessTypescriptDemoStack extends Stack {
         metricsEnabled: true,
       }
     });
+
 
     const products = api.root.addResource("products");
     products.addMethod(

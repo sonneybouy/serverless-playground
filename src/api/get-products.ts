@@ -18,15 +18,15 @@ const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPro
   });
 
   try {
-    const result = await store.getProducts();
-
+    // const result = await store.getProducts();
+    const result = "Hello World";
     logger.info('Products retrieved', { details: { products: result } });
     metrics.addMetric('productsRetrieved', MetricUnits.Count, 1);
 
     return {
       statusCode: 200,
       headers: { "content-type": "application/json" },
-      body: `{"products":${JSON.stringify(result)}}`,
+      body: `{"message":${result}}`,
     };
   } catch (error) {
       logger.error('Unexpected error occurred while trying to retrieve products', error as Error);
