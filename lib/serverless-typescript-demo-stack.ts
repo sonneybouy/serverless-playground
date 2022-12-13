@@ -67,6 +67,26 @@ export class ServerlessTypescriptDemoStack extends Stack {
       bundling: esBuildSettings
     }
 
+    const testFunction = new aws_lambda_nodejs.NodejsFunction(
+        this,
+        "GetTestFunction",
+        {
+          awsSdkConnectionReuse: true,
+          entry: "./src/api/get-test.ts",
+          ...functionSettings
+        }
+    )
+
+    const postMediaFunction = new aws_lambda_nodejs.NodejsFunction(
+        this,
+        "PostMediaFunction",
+        {
+          awsSdkConnectionReuse: true,
+          entry: "./src/api/post-media.ts",
+          ...functionSettings
+        }
+    )
+
 
     const getProductsFunction = new aws_lambda_nodejs.NodejsFunction(
       this,
@@ -122,6 +142,28 @@ export class ServerlessTypescriptDemoStack extends Stack {
         metricsEnabled: true,
       }
     });
+
+    // const mediaApi = new aws_apigateway.RestApi(this, 'MediaApi', {
+    //   restApiName: "MediaApi",
+    //   deployOptions: {
+    //     tracingEnabled: true,
+    //     dataTraceEnabled: true,
+    //     loggingLevel: aws_apigateway.MethodLoggingLevel.INFO,
+    //     metricsEnabled: true,
+    //   }
+    // });
+
+    const media = api.root.addResource("media");
+    media.addMethod(
+        "POST",
+        new aws_apigateway.LambdaIntegration(postMediaFunction)
+    );
+
+    const test = api.root.addResource("test");
+    test.addMethod(
+        "GET",
+        new aws_apigateway.LambdaIntegration(testFunction)
+    );
 
 
     const products = api.root.addResource("products");

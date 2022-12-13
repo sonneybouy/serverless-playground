@@ -28,27 +28,4 @@ export class S3Store implements MediaStore {
 
     }
 
-    // @tracer.captureMethod()
-    // public async getMedia(uuid: string): Promise<Media | undefined> {
-    //
-    //     //Define a GET Command
-    //     const params: GetObjectCommand = new GetObjectCommand({
-    //         Key: uuid,
-    //         Bucket: "bucket-name-for-now"
-    //     });
-    //     //invoke the S3 Store to go get it
-    //
-    //     //await result
-    //     const result: GetObjectCommandOutput = await S3Store.client.send(params)
-    //     //gimme
-    //     const stream = result.Body as Readable
-    //
-    //     return new Promise<Buffer>((resolve, reject) => {
-    //        const chunks: Buffer[] =[]
-    //         stream.on('data', chunk => chunks.push(chunk))
-    //         stream.once('end', () => resolve(Buffer.concat(chunks)))
-    //         stream.once('error', reject)
-    //     });
-    //
-    // }
 }

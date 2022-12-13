@@ -23,6 +23,14 @@ Within folder is the products npm project. This project contains all the code fo
 functions. It uses the hexagonal architecture pattern to decouple the entry points, from the main domain logic and the 
 storage logic.
 
+### Local Deployment
+
+```bash
+cdk synth
+sam local start-api -t ./cdk.out/ServerlessTypescriptDemoStack.template.json
+```
+
+
 
 ### Deployment
 
